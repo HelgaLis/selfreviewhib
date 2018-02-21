@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import helgalis.selfreview.model.Film;
-
 @Repository
 public class HibernateFilmDaoImpl implements FilmDao {
 	@Autowired
@@ -44,7 +45,7 @@ public class HibernateFilmDaoImpl implements FilmDao {
 	public List<Film> getAllFilms() {
 		Session session = sessionFactory.openSession();
 		String hql = "FROM films";
-		Query query = session.createQuery(hql);
+		Criteria query = session.createCriteria(Film.class);;
 		List<Film> films = query.list();
 		return films;
 	}

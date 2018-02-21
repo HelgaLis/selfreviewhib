@@ -20,19 +20,19 @@ public class Film {
 	private int id;
 	@Column
 	private String title;
-	private List<Director> directors;
+	//private List<Director> directors;
 	@Column(name="release_date")
 	private Date releaseDate;
 	@Column
 	private String description;
-	private List<Review> reviews;
-	private List<Genre> genres;
-	private List<Keyword> keywords;
+	//private List<Review> reviews;
+	//private List<Genre> genres;
+	//private List<Keyword> keywords;
 	@Column(name="view_date")
 	private Date viewDate;
 	@Column(name="self_review")
 	private String selfReview;
-	public Film(){
+	/*public Film(){
 		reviews = new ArrayList<>();
 		setGenres(new ArrayList<>());
 		setKeywords(new ArrayList<>());
@@ -79,13 +79,10 @@ public class Film {
 	}
 	public void setKeywords(List<Keyword> keywords) {
 		this.keywords = keywords;
-	}
+	}*/
 	@Override
 	public String toString() {
-		String str = getTitle()+" ";
-		for (Director director : directors) {
-			str=str+ " "+director;
-		}
+		String str = title;
 		return str;
 	}
 	@Override

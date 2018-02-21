@@ -16,7 +16,7 @@ public class SampleMain {
 		FilmDao fDao = context.getBean("hibernateFilmDaoImpl", FilmDao.class);
 		List<Film> f = fDao.getAllFilms();
 		for (Film film : f) {
-			System.out.println(f);
+			System.out.println(film);
 		}
 
 	}
