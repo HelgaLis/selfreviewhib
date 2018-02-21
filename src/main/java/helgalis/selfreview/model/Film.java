@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(name="films")
 public class Film {
@@ -20,14 +27,20 @@ public class Film {
 	private int id;
 	@Column
 	private String title;
-	//private List<Director> directors;
+	@ManyToMany
+	@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="film_id"),
+	inverseJoinColumns=@JoinColumn(name="director_id"))
+	private List<Director> directors = new ArrayList<>();
+	@Temporal(TemporalType.DATE)
 	@Column(name="release_date")
 	private Date releaseDate;
 	@Column
 	private String description;
-	//private List<Review> reviews;
+	@OneToMany(mappedBy="film",cascade=CascadeType.ALL,orphanRemoval=true)
+	private List<Review> reviews;
 	//private List<Genre> genres;
 	//private List<Keyword> keywords;
+	@Temporal(TemporalType.DATE)
 	@Column(name="view_date")
 	private Date viewDate;
 	@Column(name="self_review")
@@ -36,13 +49,21 @@ public class Film {
 		reviews = new ArrayList<>();
 		setGenres(new ArrayList<>());
 		setKeywords(new ArrayList<>());
-	}
+	}*/
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	/*
 	public Film(String title, List<Director> directors, Date releaseDate) {
 		super();
 		setTitle(title);
@@ -82,7 +103,7 @@ public class Film {
 	}*/
 	@Override
 	public String toString() {
-		String str = title;
+		String str = title+" "+directors;
 		return str;
 	}
 	@Override

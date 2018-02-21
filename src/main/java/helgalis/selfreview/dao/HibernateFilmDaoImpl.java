@@ -44,7 +44,7 @@ public class HibernateFilmDaoImpl implements FilmDao {
 	@SuppressWarnings("unchecked")
 	public List<Film> getAllFilms() {
 		Session session = sessionFactory.openSession();
-		String hql = "FROM films";
+		//String hql = "FROM films";
 		Criteria query = session.createCriteria(Film.class);;
 		List<Film> films = query.list();
 		return films;
