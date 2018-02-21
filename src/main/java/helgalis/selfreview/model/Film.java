@@ -38,8 +38,14 @@ public class Film {
 	private String description;
 	@OneToMany(mappedBy="film",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<Review> reviews;
-	//private List<Genre> genres;
-	//private List<Keyword> keywords;
+	@ManyToMany
+	@JoinTable(name="filmsgenres",joinColumns=@JoinColumn(name="film_id"),
+	inverseJoinColumns=@JoinColumn(name="genre_id"))
+	private List<Genre> genres = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name="filmskeywords",joinColumns=@JoinColumn(name="film_id"),
+	inverseJoinColumns=@JoinColumn(name="genre_id"))
+	private List<Keyword> keywords=new ArrayList<>();
 	@Temporal(TemporalType.DATE)
 	@Column(name="view_date")
 	private Date viewDate;
