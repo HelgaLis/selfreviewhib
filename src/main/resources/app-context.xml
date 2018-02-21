@@ -11,7 +11,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="org.packt.spring.chapter6.hibernate" />
 	<context:property-placeholder
-		location="classpath:/META-INF/spring/hibernate.properties" />
+		location="classpath:jdbc.properties" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -25,7 +25,7 @@
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses"
-			value="org.packt.spring.chapter6.hibernate.model.Employee" />
+			value="helgalis.selfreview.model.Film" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
