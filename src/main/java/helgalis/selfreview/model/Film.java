@@ -3,11 +3,14 @@ package helgalis.selfreview.model;
 import java.util.ArrayList;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,14 +26,16 @@ import javax.persistence.TemporalType;
 public class Film {
 	@Id
 	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column
 	private String title;
-	@ManyToMany
+	@ManyToMany(cascade={ 
+		   CascadeType.ALL
+		})//,fetch = FetchType.EAGER)
 	@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="film_id"),
 	inverseJoinColumns=@JoinColumn(name="director_id"))
-	private List<Director> directors = new ArrayList<>();
+	private Set<Director> directors = new HashSet<>();
 	@Temporal(TemporalType.DATE)
 	@Column(name="release_date")
 	private Date releaseDate;
@@ -56,12 +61,7 @@ public class Film {
 		setGenres(new ArrayList<>());
 		setKeywords(new ArrayList<>());
 	}*/
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 	public List<Review> getReviews() {
 		return reviews;
@@ -76,17 +76,17 @@ public class Film {
 		setDirectors(directors);
 		setReleaseDate(releaseDate);
 		
-	}
+	}*/
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public List<Director> getDirectors() {
+	public Set<Director> getDirectors() {
 		return directors;
 	}
-	public void setDirectors(List<Director> directors) {
+	public void setDirectors(Set<Director> directors) {
 		this.directors = directors;
 	}
 	public Date getReleaseDate() {
@@ -106,7 +106,7 @@ public class Film {
 	}
 	public void setKeywords(List<Keyword> keywords) {
 		this.keywords = keywords;
-	}*/
+	}
 	@Override
 	public String toString() {
 		String str = title+" "+directors;
