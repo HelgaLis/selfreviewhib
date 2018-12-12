@@ -30,25 +30,24 @@ public class Film {
 	private int id;
 	@Column
 	private String title;
-	@ManyToMany(cascade={ 
-		   CascadeType.ALL
-		})//,fetch = FetchType.EAGER)
-	@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="film_id"),
-	inverseJoinColumns=@JoinColumn(name="director_id"))
+	@ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER)
+	@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="film_id", referencedColumnName="id"),
+	inverseJoinColumns=@JoinColumn(name="director_id", referencedColumnName="id"))
+	//@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "films")
 	private Set<Director> directors = new HashSet<>();
 	@Temporal(TemporalType.DATE)
 	@Column(name="release_date")
 	private Date releaseDate;
 	@Column
 	private String description;
-	@OneToMany(mappedBy="film",cascade=CascadeType.ALL,orphanRemoval=true)
-	private List<Review> reviews;
+	
+	private Set<Review> reviews = new HashSet<>();
 	@ManyToMany
 	@JoinTable(name="filmsgenres",joinColumns=@JoinColumn(name="film_id"),
 	inverseJoinColumns=@JoinColumn(name="genre_id"))
 	private List<Genre> genres = new ArrayList<>();
 	@ManyToMany
-	@JoinTable(name="filmskeywords",joinColumns=@JoinColumn(name="film_id"),
+	@JoinTable(name="filmskeywords",joinColumns=@JoinColumn(name="film_id") ,
 	inverseJoinColumns=@JoinColumn(name="genre_id"))
 	private List<Keyword> keywords=new ArrayList<>();
 	@Temporal(TemporalType.DATE)
@@ -62,12 +61,19 @@ public class Film {
 		setKeywords(new ArrayList<>());
 	}*/
 	
-
-	public List<Review> getReviews() {
+	@OneToMany(mappedBy="film",cascade=CascadeType.ALL,orphanRemoval=true,fetch = FetchType.EAGER)
+	public Set<Review> getReviews() {
 		return reviews;
 	}
-	public void setReviews(List<Review> reviews) {
+	public void setReviews(Set<Review> reviews) {
 		this.reviews = reviews;
+	}
+	public void addReview(Review review) {
+		review.setFilm(this);
+		getReviews().add(review);
+	}
+	public void removeReview(Review review) {
+		getReviews().remove(review);
 	}
 	/*
 	public Film(String title, List<Director> directors, Date releaseDate) {

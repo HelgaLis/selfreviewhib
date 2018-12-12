@@ -18,10 +18,9 @@ public class Review {
 	private int id;
 	@Column
 	private String link;
-	@Column(name="review")
+	@Column(name="preview")
 	private String text;
-	@ManyToOne
-	@JoinColumn(name="film_id")
+	
 	private Film film;
 	public String getLink() {
 		return link;
@@ -35,7 +34,8 @@ public class Review {
 	public void setText(String text) {
 		this.text = text;
 	}
-
+	@ManyToOne
+	@JoinColumn(name="film_id",referencedColumnName="id")
 	public Film getFilm() {
 		return film;
 	}
@@ -49,5 +49,9 @@ public class Review {
 	@Override 
 	public int hashCode() {
 		return 0;
+	}
+	@Override
+	public String toString() {
+		return getLink()+" "+getText();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,17 +21,16 @@ import javax.persistence.Table;
  @Table(name="directors")
 public class Director {
 	@Id
-	@Column
+	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@Column
 	private String name;
-	@ManyToMany
-	@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="director_id"),
-	inverseJoinColumns=@JoinColumn(name="film_id"))
-	//@ManyToMany(mappedBy = "directors")
-	private
-	Set<Film> films = new HashSet<Film>();
+	//@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE},fetch=FetchType.EAGER)
+	//@JoinTable(name="filmsdirectors",joinColumns=@JoinColumn(name="director_id", referencedColumnName="id"),
+	//inverseJoinColumns=@JoinColumn(name="film_id", referencedColumnName="id"))
+	@ManyToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "directors")
+	private 	Set<Film> films = new HashSet<Film>();
 	public Director() {
 		
 	}
